@@ -6,7 +6,7 @@
 
 void *thr_start(void *arg){
 sleep(3);
-return "hihao~~~~";  
+return (void*)"hihao~~~~";  
 }
 
 int main(){

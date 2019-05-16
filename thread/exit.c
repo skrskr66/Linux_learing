@@ -4,7 +4,7 @@
 #include <errno.h>
 #include <pthread.h>
 
-void *thr_start(void *arg){
+void *thr_start(void *argc){
 while(1){  
 printf("child thread----\n");
 sleep(1);
