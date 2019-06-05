@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-
+using namespace std;
 class UdpSocket
 {
 public:
@@ -46,6 +46,35 @@ public:
       return false;
     }
     return true;
+  }
+  bool Recv(string &buf,struct sockaddr_in *saddr)
+  {
+    char tmp[1500] = {0};
+    socklen_t len = sizeof(struct sockaddr_in);
+    int ret = recvfrom(_sock,tmp,1500,0,(struct sockaddr*)saddr,&len);
+    if(ret<0)
+    {
+      perror("recvfrom error");
+      return false;
+    }
+    buf.assign(tmp,ret);
+    return true;
+  }
+  bool Send(string &buf,struct sockaddr_in *daddr)
+  {
+    socklen_t len = sizeof(struct sockaddr_in);
+    int ret = sendto(_sock,buf.c_str(),buf.size(),0,(struct sockaddr*)daddr,len);
+    if(ret < 0)
+    {
+      perror("send error");
+      return false;
+    }
+    return true;
+  }
+  bool Close()
+  {
+    close(_sock);
+    _sock = -1;
   }
 private:
   int _sock;
